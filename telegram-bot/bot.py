@@ -2,7 +2,7 @@ import logging
 import requests
 from telegram.ext import Updater, CommandHandler, \
                             MessageHandler, Filters
-from config import telegram_bot_token, weather_token
+import config
 
 
 
@@ -19,7 +19,7 @@ def show_weather(update, context):
     """ get weather data from openweather and send current weather to telegram """
     
     city_name = update.message.text.strip()    
-    response = requests.get(f"https://api.openweathermap.org/data/2.5/weather?q={city_name}&appid={weather_token}&lang=ru&units=metric")
+    response = requests.get(f"https://api.openweathermap.org/data/2.5/weather?q={city_name}&appid={config.WEATHER_TOKEN}&lang=ru&units=metric")
     
     if response.status_code == 404:
         update.message.reply_text(f"Город с именем {city_name} не найден")
@@ -34,7 +34,7 @@ def show_weather(update, context):
 
 def main():
     """ my first telegram bot """
-    mybot = Updater(telegram_bot_token)
+    mybot = Updater(config.TELEGRAM_BOT_TOKEN)
 
     dp = mybot.dispatcher
     dp.add_handler(CommandHandler("start", greet_user))
