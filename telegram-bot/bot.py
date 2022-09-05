@@ -6,7 +6,9 @@ from config import telegram_bot_token, weather_token
 
 
 
-logging.basicConfig(filename='bot.log', level=logging.INFO)
+logging.basicConfig(format='%(name)s - %(levelname)s - %(message)s',
+                    level=logging.INFO,
+                    filename='bot.log')
 
 
 
@@ -37,8 +39,6 @@ def main():
     dp = mybot.dispatcher
     dp.add_handler(CommandHandler("start", greet_user))
     dp.add_handler(MessageHandler(Filters.text, show_weather))
-
-    logging.info("bot started")
 
     mybot.start_polling()
     mybot.idle()
